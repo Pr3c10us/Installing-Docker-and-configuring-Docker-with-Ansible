@@ -1,7 +1,7 @@
 ---
 
 - name: Installing docker
-  hosts: dockerserver
+  hosts: all
   become: True
 
   roles:
