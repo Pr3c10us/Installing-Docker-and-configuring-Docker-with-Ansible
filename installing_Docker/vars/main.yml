@@ -1,0 +1,20 @@
+---
+# vars file for installing_Docker
+#
+
+docker_pack:
+  - docker
+  - docker-engine 
+  - docker.io
+  - containerd
+
+docker_dependencies:
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+
+docker_engine:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io

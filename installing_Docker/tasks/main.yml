@@ -1,0 +1,50 @@
+---
+# tasks file for installing_Docker
+#
+- name: Uninstall old version
+  package:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ docker_pack }}"
+
+- name: Set up Dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ docker_dependencies }}"
+
+- name: Add docker Gpg key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  
+- name: Set up stable repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+
+- name: Install docker engine
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ docker_engine }}"
+  
+  
+  notify:
+    - docker_handler
+    - Add user to docker group
+    - Reboot server
+
+- name: Add user to docker group
+  command: sudo usermod -aG docker precious
+
+- name: Reboot pc
+  reboot:
+
+- name: Checking if docker is running without sudo 
+  command: docker version
+  register: see_full_details
+
+- name: Output result
+  debug: 
+    var: see_full_details 

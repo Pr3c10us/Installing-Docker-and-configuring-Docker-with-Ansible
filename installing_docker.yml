@@ -1,0 +1,8 @@
+---
+
+- name: Installing docker
+  hosts: dockerserver
+  become: True
+
+  roles:
+    - { role: installing_Docker }
